@@ -23,6 +23,7 @@ Además, hay un gestor de reglas de compatibilidad donde puedes definir qué com
 ### Requisitos previos
 
 - **Node.js** v18 o superior (descargar: https://nodejs.org)
+(https://nodejs.org/es/download/archive/v22.14.0)
 - **npm** (viene con Node.js)
 - **Angular CLI** (se instalará automáticamente)
 
@@ -113,6 +114,7 @@ There's also a compatibility rule manager where you can define which component c
 ### Prerequisites
 
 - **Node.js** v18 or higher (download: https://nodejs.org)
+(https://nodejs.org/es/download/archive/v22.14.0)
 - **npm** (comes with Node.js)
 - **Angular CLI** (will be installed automatically)
 
