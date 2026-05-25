@@ -1,0 +1,56 @@
+<div
+  class="option-card"
+  [class.selected]="selected"
+  [class.disabled]="disabled"
+  (click)="onSelect()">
+
+  <div class="card-content">
+    <!-- URL Type (images) -->
+    @if (option.imageType === 'url' && option.image) {
+      <div class="image-container">
+        <img [src]="option.image" [alt]="option.name" (error)="onImageError($event)" />
+        <div class="image-overlay"></div>
+      </div>
+    }
+
+    <!-- Color Type (circular swatches) -->
+    @if (option.imageType === 'color' && option.color) {
+      <div class="color-container">
+        <div
+          class="color-swatch"
+          [style.backgroundColor]="option.color"
+          [style.boxShadow]="selected ? '0 0 40px ' + option.color + '90' : '0 10px 30px ' + option.color + '50'">
+        </div>
+      </div>
+    }
+
+    <!-- Emoji Type -->
+    @if (option.imageType === 'emoji' && option.emoji) {
+      <div class="emoji-container">
+        <span class="emoji">{{ option.emoji }}</span>
+      </div>
+    }
+
+    <div class="option-info">
+      <h3 class="option-name">{{ option.name }}</h3>
+      @if (option.description) {
+        <p class="option-description">{{ option.description }}</p>
+      }
+    </div>
+
+    @if (selected) {
+      <div class="selected-indicator">
+        <i class="pi pi-check"></i>
+      </div>
+    }
+
+    @if (disabled) {
+      <div class="disabled-overlay">
+        <div class="disabled-content">
+          <i class="pi pi-ban"></i>
+          <span>Not compatible</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

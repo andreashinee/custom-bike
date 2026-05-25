@@ -1,0 +1,20 @@
+<div class="header">
+  <div class="header-background"></div>
+
+  <div class="header-content">
+    <div class="header-main">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <ng-content select="[appHeaderIcon]"></ng-content>
+        </div>
+        <div class="logo-text">
+          <h1>{{ title }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <ng-content select="[appHeaderActions]"></ng-content>
+    </div>
+  </div>
+</div>

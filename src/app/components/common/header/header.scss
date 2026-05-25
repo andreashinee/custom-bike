@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap');
+
+.header {
+  position: relative;
+  background: linear-gradient(to right, #000, #1a1a1a, #000);
+  border-bottom: 1px solid rgba(255, 106, 0, 0.2);
+  padding: 1.25rem 3rem;
+  overflow: hidden;
+}
+
+.header-background {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: radial-gradient(circle, #ff6a00 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.header-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-main {
+  position: relative;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: linear-gradient(to bottom right, #ff6a00, #ff8533);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(255, 106, 0, 0.5);
+
+  svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    fill: white;
+  }
+}
+
+.logo-text {
+  h1 {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    letter-spacing: -0.025em;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+:host ::ng-deep .rules-button {
+  background: linear-gradient(to right, #FF6A00, #ff8533);
+  border: 1px solid transparent;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.3s;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 106, 0, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1194px) {
+  .header {
+    padding: 0.75rem 2rem;
+  }
+
+  .logo-section {
+    gap: 0.75rem;
+  }
+
+  .logo-icon {
+    width: 2rem;
+    height: 2rem;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .header-content {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .logo-text h1 {
+    font-size: 1.35rem;
+  }
+
+  .logo-icon {
+    width: 2rem;
+    height: 2rem;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .header-actions {
+    width: 100%;
+
+    ::ng-deep .p-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .logo-section {
+    gap: 0.6rem;
+  }
+
+  .logo-text h1 {
+    font-size: 1.1rem;
+  }
+
+  .logo-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+
+    svg {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+  }
+}

@@ -1,0 +1,295 @@
+.price-summary {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to right, #0a0a0a, #1a1a1a);
+  border-top: 2px solid rgba(255, 106, 0, 0.3);
+  z-index: 50;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: rgba(255, 106, 0, 0.05);
+  }
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.price-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  i {
+    color: #FF6A00;
+    font-size: 1.25rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+}
+
+.price-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+
+  .currency {
+    font-size: 1.5rem;
+    color: #d1d5db;
+    font-weight: 600;
+  }
+
+  .amount {
+    font-size: 2.5rem;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: -0.025em;
+  }
+}
+
+.ref-code-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 106, 0, 0.08);
+  border: 1px solid rgba(255, 106, 0, 0.25);
+  border-radius: 0.5rem;
+
+  .ref-label {
+    font-size: 0.65rem;
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .ref-value {
+    font-size: 0.9rem;
+    color: #FF6A00;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-family: 'Courier New', monospace;
+  }
+}
+
+.expand-button {
+  background: rgba(255, 106, 0, 0.1);
+  border: 1px solid rgba(255, 106, 0, 0.3);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  i {
+    color: #FF6A00;
+    font-size: 1rem;
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    background: rgba(255, 106, 0, 0.2);
+    transform: scale(1.1);
+  }
+}
+
+.breakdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+
+  &.expanded {
+    max-height: 500px;
+  }
+}
+
+.breakdown-content {
+  padding: 0 2rem 1.5rem 2rem;
+}
+
+.breakdown-title {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.item-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .item-name {
+    font-size: 0.875rem;
+    color: #d1d5db;
+    font-weight: 500;
+  }
+
+  .item-selection {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+}
+
+.item-price {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.breakdown-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 106, 0, 0.3), transparent);
+  margin: 0.5rem 0;
+}
+
+.breakdown-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(255, 106, 0, 0.1);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 106, 0, 0.3);
+
+  .total-label {
+    font-size: 1rem;
+    color: #d1d5db;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+    color: #FF6A00;
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1194px) {
+  .summary-header {
+    padding: 0.6rem 1.25rem;
+  }
+
+  .header-content {
+    gap: 1rem;
+  }
+
+  .price-label {
+    i {
+      font-size: 1rem;
+    }
+
+    span {
+      font-size: 0.7rem;
+    }
+  }
+
+  .price-value .amount {
+    font-size: 1.35rem;
+  }
+
+  .price-value .currency {
+    font-size: 1rem;
+  }
+
+  .ref-code-badge {
+    padding: 0.2rem 0.5rem;
+
+    .ref-label {
+      font-size: 0.55rem;
+    }
+
+    .ref-value {
+      font-size: 0.75rem;
+    }
+  }
+
+  .expand-button {
+    width: 1.75rem;
+    height: 1.75rem;
+
+    i {
+      font-size: 0.75rem;
+    }
+  }
+
+  .breakdown-content {
+    padding: 0 1.25rem 0.75rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .ref-code-badge {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-header {
+    padding: 1rem;
+  }
+
+  .header-content {
+    gap: 1rem;
+  }
+
+  .price-value {
+    .amount {
+      font-size: 1.5rem;
+    }
+
+    .currency {
+      font-size: 1rem;
+    }
+  }
+
+  .price-label span {
+    font-size: 0.75rem;
+  }
+
+  .breakdown-content {
+    padding: 0 1rem 1rem;
+  }
+}

@@ -1,0 +1,42 @@
+<div class="price-summary">
+  <div class="summary-header" (click)="toggleExpanded()">
+    <div class="header-content">
+      <div class="price-label">
+        <i class="pi pi-euro"></i>
+        <span>Total Price</span>
+      </div>
+      <div class="price-value">
+        <span class="currency">€</span>
+        <span class="amount">{{ totalPrice }}</span>
+      </div>
+    </div>
+    <button class="expand-button">
+      <i [class]="'pi ' + (expanded ? 'pi-chevron-up' : 'pi-chevron-down')"></i>
+    </button>
+  </div>
+
+  <div class="breakdown" [class.expanded]="expanded">
+    <div class="breakdown-content">
+      <div class="breakdown-title">Price Breakdown</div>
+
+      <div class="breakdown-list">
+        @for (detail of priceDetails; track detail.label) {
+          <div class="breakdown-item">
+            <div class="item-label">
+              <span class="item-name">{{ detail.label }}</span>
+              <span class="item-selection">{{ detail.selection }}</span>
+            </div>
+            <div class="item-price">€{{ detail.price }}</div>
+          </div>
+        }
+
+        <div class="breakdown-divider"></div>
+
+        <div class="breakdown-total">
+          <span class="total-label">Total</span>
+          <span class="total-price">€{{ totalPrice }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

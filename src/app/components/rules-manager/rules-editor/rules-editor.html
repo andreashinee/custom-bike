@@ -1,0 +1,120 @@
+<div class="add-rule-section">
+  @if (!showForm) {
+    <p-button
+      label="Add New Rule"
+      icon="pi pi-plus"
+      (onClick)="onAddClick()"
+      styleClass="add-button">
+    </p-button>
+  }
+
+  @if (showForm) {
+    <div class="rule-form">
+      <div class="form-group">
+        <label>Rule Type</label>
+        <p-autocomplete
+          [(ngModel)]="selectedRuleType"
+          [suggestions]="filteredRuleTypeOptions"
+          (completeMethod)="filterRuleTypeOptions($event)"
+          [dropdown]="true"
+          [typeahead]="false"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select rule type">
+          <ng-template pTemplate="item" let-option>
+            <div class="autocomplete-item">
+              @if (option.imageType === 'url') {
+                <img [src]="option.image" [alt]="option.label" class="autocomplete-item-image" />
+              } @else if (option.imageType === 'color') {
+                <div class="autocomplete-item-swatch" [style.background]="option.color"></div>
+              }
+              <div class="autocomplete-item-info">
+                <span class="autocomplete-item-label">{{ option.label }}</span>
+                <span class="autocomplete-item-desc">{{ option.description }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </p-autocomplete>
+      </div>
+
+      @if (selectedRuleType) {
+        <div class="form-group">
+          <label>IF Condition</label>
+          <p-autocomplete
+            [(ngModel)]="selectedCondition"
+            [suggestions]="filteredConditionOptions"
+            (completeMethod)="filterConditionOptions($event)"
+            [dropdown]="true"
+            [typeahead]="false"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select condition">
+            <ng-template pTemplate="item" let-option>
+              <div class="autocomplete-item">
+                @if (option.imageType === 'url') {
+                  <img [src]="option.image" [alt]="option.label" class="autocomplete-item-image" />
+                } @else if (option.imageType === 'color') {
+                  <div class="autocomplete-item-swatch" [style.background]="option.color"></div>
+                }
+                <div class="autocomplete-item-info">
+                  <span class="autocomplete-item-label">{{ option.label }}</span>
+                  <span class="autocomplete-item-desc">{{ option.description }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </p-autocomplete>
+        </div>
+      }
+
+      @if (selectedCondition) {
+        <div class="form-group">
+          <label>THEN Incompatible With</label>
+          <p-autocomplete
+            [(ngModel)]="selectedIncompatible"
+            [suggestions]="filteredIncompatibleOptions"
+            (completeMethod)="filterIncompatibleOptions($event)"
+            [dropdown]="true"
+            [typeahead]="false"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select incompatible option">
+            <ng-template pTemplate="item" let-option>
+              <div class="autocomplete-item">
+                @if (option.imageType === 'url') {
+                  <img [src]="option.image" [alt]="option.label" class="autocomplete-item-image" />
+                } @else if (option.imageType === 'color') {
+                  <div class="autocomplete-item-swatch" [style.background]="option.color"></div>
+                }
+                <div class="autocomplete-item-info">
+                  <span class="autocomplete-item-label">{{ option.label }}</span>
+                  <span class="autocomplete-item-desc">{{ option.description }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </p-autocomplete>
+        </div>
+      }
+
+      @if (selectedCondition && selectedIncompatible) {
+        <div class="auto-description">
+          <span class="auto-desc-label">Rule Preview:</span>
+          <span class="auto-desc-text">{{ autoDescription }}</span>
+        </div>
+      }
+
+      <div class="form-actions">
+        <p-button
+          label="Cancel"
+          severity="secondary"
+          (onClick)="onCancel()">
+        </p-button>
+        <p-button
+          label="Add Rule"
+          styleClass="add-rule-btn"
+          [disabled]="!canSubmit"
+          (onClick)="onSubmit()">
+        </p-button>
+      </div>
+    </div>
+  }
+</div>

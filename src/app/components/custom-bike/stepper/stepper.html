@@ -1,0 +1,33 @@
+<div class="stepper">
+  <div class="steps-container">
+    @for (step of steps; track step.number; let isLast = $last) {
+      <div class="step-wrapper">
+        <div
+          class="step"
+          [class.completed]="isStepCompleted(step.number)"
+          [class.active]="isStepActive(step.number)"
+          [class.clickable]="step.number < currentStep"
+          (click)="onStepClick(step.number)">
+
+          <div class="step-content">
+            <div class="step-indicator">
+              <div class="step-circle">
+                @if (isStepCompleted(step.number)) {
+                  <i class="pi pi-check"></i>
+                }
+                @if (!isStepCompleted(step.number)) {
+                  <span>{{ step.number }}</span>
+                }
+              </div>
+            </div>
+            <div class="step-title">{{ step.title }}</div>
+          </div>
+        </div>
+
+        @if (!isLast) {
+          <div class="step-connector" [class.completed]="isStepCompleted(step.number + 1)"></div>
+        }
+      </div>
+    }
+  </div>
+</div>

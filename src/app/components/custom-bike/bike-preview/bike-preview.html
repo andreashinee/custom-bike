@@ -1,0 +1,295 @@
+<div class="preview-container">
+  <!-- Glow blobs -->
+  <div class="glow-blob glow-orange"></div>
+  <div class="glow-blob glow-blue"></div>
+  <div class="radial-overlay"></div>
+
+  <!-- SVG Bike -->
+  <div class="bike-wrapper">
+    <svg
+      width="800"
+      height="500"
+      viewBox="0 0 800 500"
+      class="bike-svg"
+      aria-label="Bike preview silhouette">
+      <defs>
+        <!-- Brillo sutil (para shiny) -->
+        <linearGradient id="frameGloss" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1a1a1a" stop-opacity="1" />
+          <stop offset="40%" stop-color="#050505" stop-opacity="1" />
+          <stop offset="100%" stop-color="#1a1a1a" stop-opacity="1" />
+        </linearGradient>
+
+        <!-- Glow -->
+        <filter id="glowOrange">
+          <feGaussianBlur stdDeviation="10" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <!-- Sombra suelo -->
+        <filter id="groundBlur">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+      </defs>
+
+      <!-- Sombra al estilo de la imagen -->
+      <ellipse
+        cx="420"
+        [attr.cy]="GEO.frontHub.y + 120"
+        rx="320"
+        ry="18"
+        fill="#000"
+        opacity="0.25"
+        filter="url(#groundBlur)" />
+
+      <!-- RUEDAS (silhouette) -->
+      <g [attr.filter]="getWheelGlowFilter()" class="transition-all">
+        <!-- Rear -->
+        <circle
+          [attr.cx]="GEO.rearHub.x"
+          [attr.cy]="GEO.rearHub.y"
+          [attr.r]="WHEEL_R"
+          fill="none"
+          stroke="#050505"
+          [attr.stroke-width]="TIRE_W" />
+        <circle
+          [attr.cx]="GEO.rearHub.x"
+          [attr.cy]="GEO.rearHub.y"
+          [attr.r]="RIM_R"
+          fill="none"
+          [attr.stroke]="wheelStroke"
+          stroke-width="6"
+          class="transition-all" />
+        @for (i of spokes; track i) {
+          <line
+            [attr.x1]="getSpokeCoords(i, GEO.rearHub, true).x1"
+            [attr.y1]="getSpokeCoords(i, GEO.rearHub, true).y1"
+            [attr.x2]="getSpokeCoords(i, GEO.rearHub, true).x2"
+            [attr.y2]="getSpokeCoords(i, GEO.rearHub, true).y2"
+            stroke="#111111"
+            stroke-width="2"
+            opacity="0.95" />
+        }
+        <circle [attr.cx]="GEO.rearHub.x" [attr.cy]="GEO.rearHub.y" r="14" fill="#0a0a0a" />
+
+        <!-- Front -->
+        <circle
+          [attr.cx]="GEO.frontHub.x"
+          [attr.cy]="GEO.frontHub.y"
+          [attr.r]="WHEEL_R"
+          fill="none"
+          stroke="#050505"
+          [attr.stroke-width]="TIRE_W" />
+        <circle
+          [attr.cx]="GEO.frontHub.x"
+          [attr.cy]="GEO.frontHub.y"
+          [attr.r]="RIM_R"
+          fill="none"
+          [attr.stroke]="wheelStroke"
+          stroke-width="6"
+          class="transition-all" />
+        @for (i of spokes; track i) {
+          <line
+            [attr.x1]="getSpokeCoords(i, GEO.frontHub, false).x1"
+            [attr.y1]="getSpokeCoords(i, GEO.frontHub, false).y1"
+            [attr.x2]="getSpokeCoords(i, GEO.frontHub, false).x2"
+            [attr.y2]="getSpokeCoords(i, GEO.frontHub, false).y2"
+            stroke="#111111"
+            stroke-width="2"
+            opacity="0.95" />
+        }
+        <circle [attr.cx]="GEO.frontHub.x" [attr.cy]="GEO.frontHub.y" r="14" fill="#0a0a0a" />
+      </g>
+
+      <!-- CUADRO + HORQUILLA (silueta) -->
+      <g [attr.filter]="getGlowFilter()" class="transition-all">
+        <!-- Top tube -->
+        <path
+          [attr.d]="'M ' + P(GEO.seatTop) + ' L ' + P(GEO.headTop)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STROKE"
+          stroke-linecap="round" />
+
+        <!-- Down tube -->
+        <path
+          [attr.d]="'M ' + P(GEO.headBot) + ' L ' + P(GEO.bb)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STROKE + 2"
+          stroke-linecap="round" />
+
+        <!-- Seat tube -->
+        <path
+          [attr.d]="'M ' + P(GEO.seatTop) + ' L ' + P(GEO.bb)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STROKE"
+          stroke-linecap="round" />
+
+        <!-- Head tube -->
+        <path
+          [attr.d]="'M ' + P(GEO.headTop) + ' L ' + P(GEO.headBot)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STROKE"
+          stroke-linecap="round" />
+
+        <!-- Seat stays -->
+        <path
+          [attr.d]="'M ' + (GEO.seatTop.x + 4) + ' ' + (GEO.seatTop.y + 6) + ' L ' + GEO.rearHub.x + ' ' + (GEO.rearHub.y - 10)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STAY"
+          stroke-linecap="round" />
+
+        <!-- Chain stays -->
+        <path
+          [attr.d]="'M ' + GEO.bb.x + ' ' + GEO.bb.y + ' L ' + GEO.rearHub.x + ' ' + (GEO.rearHub.y + 10)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STAY + 2"
+          stroke-linecap="round" />
+
+        <!-- Horquilla -->
+        <path
+          [attr.d]="'M ' + P(GEO.headBot) + ' L ' + (GEO.frontHub.x - 6) + ' ' + (GEO.frontHub.y - 10)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          [attr.stroke-width]="FRAME_STAY + 3"
+          stroke-linecap="round" />
+
+        <!-- Tija + sillín -->
+        <path
+          [attr.d]="'M ' + P(GEO.seatTop) + ' L ' + P(GEO.seatPostTop)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          stroke-width="12"
+          stroke-linecap="round" />
+        <path
+          [attr.d]="'M ' + (GEO.seatPostTop.x - 28) + ' ' + GEO.seatPostTop.y + ' L ' + (GEO.seatPostTop.x + 30) + ' ' + (GEO.seatPostTop.y - 6)"
+          fill="none"
+          [attr.stroke]="frameStroke"
+          stroke-width="14"
+          stroke-linecap="round" />
+      </g>
+
+      <!-- TRANSMISIÓN -->
+      <g [attr.filter]="getChainGlowFilter()" class="transition-all">
+        <!-- Plato -->
+        <circle
+          [attr.cx]="GEO.bb.x"
+          [attr.cy]="GEO.bb.y"
+          r="32"
+          fill="none"
+          [attr.stroke]="chainStroke"
+          stroke-width="10" />
+        <circle
+          [attr.cx]="GEO.bb.x"
+          [attr.cy]="GEO.bb.y"
+          r="18"
+          fill="none"
+          [attr.stroke]="chainStroke"
+          stroke-width="6"
+          opacity="0.95" />
+
+        <!-- Biela -->
+        <line
+          [attr.x1]="GEO.bb.x"
+          [attr.y1]="GEO.bb.y"
+          [attr.x2]="GEO.bb.x + 18"
+          [attr.y2]="GEO.bb.y + 70"
+          [attr.stroke]="chainStroke"
+          stroke-width="12"
+          stroke-linecap="round" />
+
+        <!-- Pedal -->
+        <rect
+          [attr.x]="GEO.bb.x + 10"
+          [attr.y]="GEO.bb.y + 70"
+          width="28"
+          height="12"
+          rx="3"
+          [attr.fill]="isChainHighlighted ? '#FF6A00' : '#111111'" />
+
+        <!-- Cadena -->
+        <path
+          [attr.d]="'M ' + (GEO.bb.x + 30) + ' ' + GEO.bb.y + ' L ' + (GEO.rearHub.x + 34) + ' ' + (GEO.rearHub.y + 16)"
+          fill="none"
+          [attr.stroke]="isChainHighlighted ? '#FF6A00' : '#111111'"
+          stroke-width="6"
+          stroke-linecap="round"
+          opacity="0.95" />
+      </g>
+
+      <!-- MANILLAR -->
+      <g>
+        <!-- Stem -->
+        <path
+          [attr.d]="'M ' + P(GEO.headTop) + ' L ' + P(GEO.stemEnd)"
+          fill="none"
+          stroke="#111111"
+          stroke-width="12"
+          stroke-linecap="round" />
+
+        <!-- Bar tops -->
+        <path
+          [attr.d]="'M ' + (GEO.stemEnd.x - 6) + ' ' + (GEO.stemEnd.y + 2) + ' L ' + (GEO.stemEnd.x + 26) + ' ' + (GEO.stemEnd.y + 2)"
+          fill="none"
+          stroke="#111111"
+          stroke-width="12"
+          stroke-linecap="round" />
+
+        <!-- Hood / maneta -->
+        <path
+          [attr.d]="'M ' + (GEO.stemEnd.x + 20) + ' ' + (GEO.stemEnd.y + 1) + 
+                     ' Q ' + (GEO.stemEnd.x + 46) + ' ' + (GEO.stemEnd.y + 6) + ' ' + (GEO.stemEnd.x + 44) + ' ' + (GEO.stemEnd.y + 26) +
+                     ' Q ' + (GEO.stemEnd.x + 42) + ' ' + (GEO.stemEnd.y + 44) + ' ' + (GEO.stemEnd.x + 24) + ' ' + (GEO.stemEnd.y + 44) +
+                     ' Q ' + (GEO.stemEnd.x + 12) + ' ' + (GEO.stemEnd.y + 44) + ' ' + (GEO.stemEnd.x + 12) + ' ' + (GEO.stemEnd.y + 32) +
+                     ' Q ' + (GEO.stemEnd.x + 12) + ' ' + (GEO.stemEnd.y + 18) + ' ' + (GEO.stemEnd.x + 24) + ' ' + (GEO.stemEnd.y + 12) +
+                     ' Q ' + (GEO.stemEnd.x + 30) + ' ' + (GEO.stemEnd.y + 8) + ' ' + (GEO.stemEnd.x + 20) + ' ' + (GEO.stemEnd.y + 1) + ' Z'"
+          fill="#111111"
+          opacity="1" />
+
+        <!-- Drop bar -->
+        <path
+          [attr.d]="'M ' + (GEO.stemEnd.x + 6) + ' ' + (GEO.stemEnd.y + 2) +
+                     ' Q ' + (GEO.stemEnd.x + 38) + ' ' + (GEO.stemEnd.y + 8) + ' ' + (GEO.stemEnd.x + 34) + ' ' + (GEO.stemEnd.y + 32) +
+                     ' Q ' + (GEO.stemEnd.x + 30) + ' ' + (GEO.stemEnd.y + 62) + ' ' + (GEO.stemEnd.x + 8) + ' ' + (GEO.stemEnd.y + 62) +
+                     ' Q ' + (GEO.stemEnd.x - 4) + ' ' + (GEO.stemEnd.y + 62) + ' ' + (GEO.stemEnd.x - 6) + ' ' + (GEO.stemEnd.y + 50)"
+          fill="none"
+          stroke="#111111"
+          stroke-width="12"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+
+        <!-- Gancho interno -->
+        <path
+          [attr.d]="'M ' + (GEO.stemEnd.x + 8) + ' ' + (GEO.stemEnd.y + 62) +
+                     ' Q ' + (GEO.stemEnd.x + 18) + ' ' + (GEO.stemEnd.y + 54) + ' ' + (GEO.stemEnd.x + 14) + ' ' + (GEO.stemEnd.y + 44)"
+          fill="none"
+          stroke="#111111"
+          stroke-width="10"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.98" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- Partículas -->
+  @for (i of particles; track i) {
+    <div class="particle"></div>
+  }
+
+  <!-- Label -->
+  <div class="preview-label">
+    <div class="label-content">
+      <i class="pi pi-eye"></i>
+      <span>Live Preview</span>
+    </div>
+  </div>
+</div>
